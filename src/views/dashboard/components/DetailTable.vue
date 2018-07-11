@@ -34,11 +34,7 @@
       label="威胁等级"
       >
       <template slot-scope="scope">
-        <div class="level-icon">
-          <!-- <svg-icon icon-class="eye"/> -->
-          <span>{{ scope.row.level }}</span>
-        </div>
-        <!-- <el-button type="warning">{{ this.level }}</el-button> -->
+        <el-tag :type="priority_map[scope.row.sig_priority]">优先级:{{scope.row.sig_priority}}</el-tag>
       </template>
     </el-table-column>
     <el-table-column
@@ -77,7 +73,12 @@ export default {
     return {
       cid: 0,
       loading: false,
-      Events: []
+      Events: [],
+      priority_map :{
+        1:"info",
+        2:"warning",
+        3:"danger"
+      }
     }
   },
   mounted: function() {

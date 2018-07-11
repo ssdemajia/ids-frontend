@@ -42,7 +42,6 @@
         <el-row>
           <el-col :span="20">
             <el-progress :percentage="70"></el-progress>
-            <el-input  name="password"></el-input>
           </el-col>
           <el-col :span="4">
             <el-checkbox v-model="checkTcp"></el-checkbox>
