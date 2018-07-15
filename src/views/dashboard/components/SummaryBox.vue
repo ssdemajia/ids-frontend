@@ -62,11 +62,6 @@ export default {
       checkUDP: true,
       checkIP: true,
       checkICMP: true,
-      // event_count: 0,
-      // tcp_event_count: 0,
-      // udp_event_count: 0,
-      // icmp_event_count: 0,
-      // ip_event_count: 0
     }
   },
   methods: {
@@ -74,44 +69,59 @@ export default {
       return Math.round(a/b*100)
     },
     protocolChange(row) {
-      this.$store.commit("Protocol_Change", {
-        tcp: this.checkTCP, 
-        udp: this.checkUDP, 
-        ip: this.checkIP, 
-        icmp: this.checkICMP})
+      this.$store.commit("CHANGE_PAGE", 1)
+      this.$store.commit("PROTOCOL_CHANGE", {
+        checkTCP: this.checkTCP, 
+        checkUDP: this.checkUDP, 
+        checkIP: this.checkIP, 
+        checkICMP: this.checkICMP})
+      this.$store.dispatch('getEventFromServerV2')
     }
+  },
+  created() {
+    this.$store.dispatch('getEventsCount', "ip")
+    this.$store.dispatch('getEventsCount', "icmp")
+    this.$store.dispatch('getEventsCount', "tcp")
+    this.$store.dispatch('getEventsCount', "udp")
+    this.$store.dispatch('getEventsCount', "event")
   },
   computed: {
     TCPPercent() {      
-      var event_count = this.$store.getters.getEventsCount
-      var tcp_event_count = this.$store.getters.filterTCPEvent.length
-      if (tcp_event_count == 0) {
+      var event_count = this.$store.state.event.event_count.event
+      var tcp_event_count = this.$store.state.event.event_count.tcp
+      // console.log("event_count: "+ event_count + " tcp_event_count: " + tcp_event_count)
+      if (tcp_event_count == 0 || event_count == 0) {
         return 0
       }
       return this.calPercent(tcp_event_count, event_count)
     },
     UDPPercent() {
-      var event_count = this.$store.getters.getEventsCount
-      var udp_event_count = this.$store.getters.filterUDPEvent.length
-      if (udp_event_count == 0) {
+      var event_count = this.$store.state.event.event_count.event
+      var udp_event_count = this.$store.state.event.event_count.udp
+      // console.log("event_count: "+ event_count + " udp_event_count: " + udp_event_count)
+      if (udp_event_count == 0 || event_count == 0) {
         return 0
       }
       return this.calPercent(udp_event_count, event_count)
     },
     ICMPPercent() {
-      var event_count = this.$store.getters.getEventsCount
-      var icmp_event_count = this.$store.getters.filterICMPEvent.length
-      if (icmp_event_count == 0) {
+      var event_count = this.$store.state.event.event_count.event
+      var icmp_event_count = this.$store.state.event.event_count.icmp
+      if (icmp_event_count == 0 || event_count == 0) {
         return 0
       }
       return this.calPercent(icmp_event_count, event_count)
     },
     IPPercent() {
-      var event_count = this.$store.getters.getEventsCount
-      var ip_event_count = this.$store.getters.filterIPEvent.length
-      if (ip_event_count == 0) {
+      var event_count = this.$store.state.event.event_count.event
+      var ip_event_count = this.$store.state.event.event_count.ip
+      if (ip_event_count == 0 || event_count == 0) {
         return 0
       }
+      var ip_event_count = event_count - 
+      this.$store.state.event.event_count.tcp - 
+      this.$store.state.event.event_count.udp -
+      this.$store.state.event.event_count.icmp
       return this.calPercent(ip_event_count, event_count)
     }
   },

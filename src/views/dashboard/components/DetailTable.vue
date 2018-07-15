@@ -15,6 +15,10 @@
       prop="sig_name">
     </el-table-column>
     <el-table-column
+      label="告警类型"
+      prop="sig_class_id">
+    </el-table-column>
+    <el-table-column
       label="时间"
       prop="timestamps">
     </el-table-column>
@@ -48,7 +52,7 @@
   <el-pagination
     background
     layout="prev, pager, next"
-    :total="PageCount"
+    :total="eventTotol"
     :page-size="$store.state.event.eventPerPage"
     @current-change="handleCurrentChange"
   >
@@ -61,13 +65,15 @@
 export default {
   methods: {
     handler(row) {
+      this.$store.state.event.current_event = row
       this.$router.push('/event/' + row.cid)
     },
     getHeight() {
       return 800
     },
     handleCurrentChange(val) {
-      this.$store.commit("CHANGE_PAGE", val)
+      this.$store.commit('CHANGE_PAGE', val)
+      this.$store.dispatch('getEventFromServerV2')
       // console.log(`当前页: ${val}`);
       window.scrollTo(0,0)
     }
@@ -90,14 +96,8 @@ export default {
   mounted: function() {
     // console.log('lalalala')
     this.loading = true
-    this.$store.dispatch('GetEventFromServer', 0).then(()=> {
+    this.$store.dispatch('getEventFromServerV2').then(()=> {      
       this.loading = false     
-      this.$store.commit("Protocol_Change", {
-        tcp: true, 
-        udp: true, 
-        ip: true, 
-        icmp: true})
-      // console.log("events length:"+this.$store.state.event.current_events.length)
     }).catch((error) => {
       this.loading = false
       console.log(error)
@@ -105,8 +105,8 @@ export default {
     
   },
   computed: {
-    PageCount() {
-      return this.$store.getters.getCurrentEventsCount
+    eventTotol() {
+      return this.$store.getters.getCount
     },
     currentEvent() {
       return this.$store.getters.getActivityEvent

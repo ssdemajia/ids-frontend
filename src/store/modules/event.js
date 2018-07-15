@@ -1,4 +1,4 @@
-import { getEvents } from '@/api/event'
+import { getEventsV2, getCount } from '@/api/event'
 
 const event = {
   state: {
@@ -6,61 +6,48 @@ const event = {
     current_events: [],
     cid: -1,
     eventPerPage: 30,
-    currentPage: 1
+    currentPage: 1,
+    check: {
+      checkTCP: true,
+      checkUDP: true,
+      checkIP: true,
+      checkICMP: true
+    },
+    event_count: {
+      tcp: 0,
+      icmp: 0,
+      udp: 0,
+      ip: 0,
+      event: 0
+    },
+    current_event: {}
   },
   mutations: {
-    CHANGE_PAGE: (state, index) => {
+    PROTOCOL_CHANGE(state, check) {
+      for (const item in check) {
+        state.check[item] = check[item]
+      }
+    },
+    CHANGE_PAGE(state, index) {
       state.currentPage = index
     },
-    ADD_EVENT : (state, event)=>{
-      console.log("Add Event!")
-      
-      if (event.cid > state.cid) {
-        state.events.push(event)
-        state.cid = event.cid;
-      }      
+    CHANGE_EVENT(state, events) {
+      state.current_events = []
+      state.current_events = events
+      // console.log('Add event to current_events')
     },
-    Protocol_Change(state, status) {
-      var checkTCP = status.tcp
-      var checkUDP = status.udp
-      var checkIP = status.ip
-      var checkICMP = status.icmp
-      state.current_events = state.events.filter(event => {
-        if (event.protocol == "ICMP") {
-          if (!checkICMP) {
-            return false
-          }
-        }
-        else if (event.protocol == "UDP") {
-          if (!checkUDP) {
-            return false
-          }
-        }
-        else if (event.protocol == "IP") {
-          if (!checkIP) {
-            return false
-          }
-        }
-        else if (event.protocol == "TCP") {
-          if (!checkTCP) {
-            return false
-          }
-        }
-        return true
-      })
+    UPDATE_EVENT_COUNT(state, count) {
+      state.event_count[count.type] = count.count
     }
   },
   actions: {
-    GetEventFromServer(context, cid) {
-      // console.log("get evenet from "+cid);
-      if (cid <= context.state.cid) {
-        return
-      }
+    getEventFromServerV2(context) {
+      const check = context.state.check
       return new Promise((resolve, reject) => {
-        getEvents(cid).then(response => {
-          // console.log(response.result)          
+        const { start, end } = context.getters.getCurrentPageStartEnd
+        getEventsV2(start, end, check).then(response => {
           var events = response.result
-          // console.log(events);
+          var mEvents = []
           for (let i = 0; i < events.length; i++) {
             const event = events[i]
             var mEvent = {
@@ -68,51 +55,70 @@ const event = {
               cid: event[1],
               signature: event[2],
               sig_name: event[3],
-              sig_priority: event[4],
-              timestamps: event[5],
-              ip_src: event[6],
-              ip_dst: event[7],
-              protocol: event[8]
+              sig_class_id: event[4],
+              sig_priority: event[5],
+              timestamps: event[6],
+              ip_src: event[7],
+              ip_dst: event[8],
+              protocol: event[9]
             }
-            context.commit('ADD_EVENT', mEvent)                    
+            mEvents.push(mEvent)
           }
+          context.commit('CHANGE_EVENT', mEvents)
           resolve(response)
         }).catch(err => {
           console.log('getEvent error')
           reject(err)
         })
       })
+    },
+    getEventsCount(context, type) {
+      return new Promise((resolve, reject) => {
+        getCount(type).then(response => {
+          context.commit('UPDATE_EVENT_COUNT', {
+            type: type,
+            count: response.count
+          })
+          resolve(response)
+        }).catch(error => {
+          reject(error)
+        })
+      })
     }
   },
   getters: {
     getActivityEvent(state) {
-      var start = (state.currentPage-1)*state.eventPerPage
-      var end = state.currentPage * state.eventPerPage-1
-      return state.current_events.slice(start, end)
+      return state.current_events
     },
-    getEventsCount: (state) => {
-      return state.events.length
+    getCurrentPageStartEnd(state) {
+      var start = (state.currentPage - 1) * state.eventPerPage
+      var end = state.currentPage * state.eventPerPage - 1
+      return { start, end }
     },
-    getCurrentEventsCount(state) {
-      return state.current_events.length
-    },
-    getPageCount(state, getters) {
-      return Math.ceil(getters.getCurrentEventsCount/state.eventPerPage)
-    },
-    filterTCPEvent: (state) => {
-      console.log();
-      
-      return state.events.filter(event => event.protocol === "TCP")
-    },
-    filterICMPEvent: (state) => {
-      return state.events.filter(event => event.protocol === "ICMP")
-    },
-    filterUDPEvent: (state) => {
-      return state.events.filter(event => event.protocol === "UDP")
-    },
-    filterIPEvent: (state) => {
-      return state.events.filter(event => event.protocol === "IP")
+    getCount: (state) => {
+      var count = 0
+      if (state.check.checkTCP) {
+        count += state.event_count.tcp
+      }
+      if (state.check.checkUDP) {
+        count += state.event_count.udp
+      }
+      if (state.check.checkICMP) {
+        count += state.event_count.icmp
+      }
+      if (state.checkIP) {
+        count += state.event_count.event - count
+      }
+      console.log('Count:' + count)
+      return count
     }
+    // getCurrentEventsCount(state) {
+    //   return state.current_events.length
+    // },
+    // getPageCount(state, getters) {
+    //   console.log('Page: ' + getters.getEventsCount / state.eventPerPage)
+    //   return Math.ceil(getters.getEventsCount / state.eventPerPage)
+    // }
   }
 }
 export default event

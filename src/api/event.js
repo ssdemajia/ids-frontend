@@ -10,14 +10,34 @@ export function getEvents(cid) {
   })
 }
 
-export function getEventDetail(cid, protocol) {
+export function getEventDetail(cid) {
   return request({
     url: '/detail',
     method: 'post',
     data: {
-      cid,
-      protocol
+      cid
     }
   })
 }
 
+export function getEventsV2(start, end, check) {
+  return request({
+    url: '/v2/events',
+    method: 'post',
+    data: {
+      start,
+      end,
+      checkTCP: check.checkTCP,
+      checkUDP: check.checkUDP,
+      checkIP: check.checkIP,
+      checkICMP: check.checkICMP
+    }
+  })
+}
+
+export function getCount(type) {
+  return request({
+    url: '/count/' + type,
+    method: 'get'
+  })
+}

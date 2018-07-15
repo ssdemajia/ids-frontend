@@ -1,5 +1,5 @@
 <template>
-  <div class="event">
+  <div class="event-container">
     <el-row  :gutter="20" class="grid-content">
       <el-col :span="6" :offset="9">
         <el-button type="primary" @click="previousEvent">上一个事件</el-button>
@@ -10,6 +10,7 @@
     <el-row class="meta">
       <el-col :span="24">
         <el-table
+          :border="true"
           :data="event">
           <el-table-column
           
@@ -31,6 +32,7 @@
     <el-row class="ip">
       <el-col :span="24">
         <el-table
+          :border="true"
           :data="ip">
           <el-table-column
             label="IP 源地址"
@@ -79,9 +81,10 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row class="proto4" v-if="protocol=='ICMP'">
+    <el-row class="proto4-icmp" v-if="protocol=='ICMP'">
       <el-col :span="24">
         <el-table
+          :border="true"
           :data="proto4">
           <el-table-column
             label="ICMP类型"
@@ -106,9 +109,10 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row class="Proto4" v-if="protocol=='UDP'">
+    <el-row class="proto4-udp" v-if="protocol=='UDP'">
       <el-col :span="24">
         <el-table
+          :border="true"
           :data="proto4">
           <el-table-column
             label="UDP源端口"
@@ -125,9 +129,10 @@
         </el-table>
       </el-col>
     </el-row>
-    <el-row class="proto4" v-if="protocol=='TCP'">
+    <el-row class="proto4-tcp" v-if="protocol=='TCP'">
       <el-col :span="24">
         <el-table
+          :border="true"
           :data="proto4">
           <el-table-column
             label="TCP源端口"
@@ -197,20 +202,37 @@ export default {
   methods: {
     getProtocol(cid) {
       var _this = this
-      const proto = this.$store.state.event.events[cid-1].protocol
-      this.event = [this.$store.state.event.events[cid-1]]
-      getEventDetail(cid, proto).then(response => {
-        // console.log("response")
-        // console.log(response)
+      const _cid = this.$store.state.event.current_event.cid
+      getEventDetail(cid).then(response => {
         _this.cid = cid
-        _this.protocol = proto
+        _this.event= this.parseEvent(response.event)
+        _this.event.cid = cid
+        _this.protocol = response.protocol
         _this.ip = this.parseIP(response.ip)
-        _this.proto4 = this.parseProto4(response.proto4, proto)
+        _this.proto4 = this.parseProto4(response.proto4, response.protocol)
         console.log(_this.event);
         console.log(_this.ip);
         console.log(_this.proto4);
         
+      }).catch(error => {
+        console.log(error)
       })
+    },
+    parseEvent(event) {
+      if (event.length == 0) {
+        return [{
+          sig_name: "不明规则触发"
+        }]
+      }
+      return [{
+        sid: event[0],
+        cid: event[1],
+        sig_name: event[2],
+        sig_class_id: event[3],
+        sig_priority: event[4],
+        timestamp: event[5],
+        ip_proto: event[6]
+      }]
     },
     parseProto4(proto4, proto) {
       if (proto === "ICMP") {
@@ -230,13 +252,15 @@ export default {
       return [{
         ip_src: ip_arr[0],
         ip_dst: ip_arr[1],
-        ip_hlen: ip_arr[2],
-        ip_tos: ip_arr[3],
-        ip_len: ip_arr[4],
-        ip_id: ip_arr[5],
-        ip_flags: ip_arr[6],
-        ip_ttl: ip_arr[7],
-        ip_csum: ip_arr[8]
+        ip_ver: ip_arr[2],
+        ip_hlen: ip_arr[3],
+        ip_tos: ip_arr[4],
+        ip_len: ip_arr[5],
+        ip_id: ip_arr[6],
+        ip_flags: ip_arr[7],
+        ip_off: ip_arr[8],
+        ip_ttl: ip_arr[9],
+        ip_csum: ip_arr[10]
       }]
     },
     parseUDP(udp_arr) {
@@ -303,6 +327,22 @@ export default {
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
+  margin: 15px;
+}
+.meta {
+  margin: 15px;
+}
+.ip {
+  margin: 15px;
+}
+.proto4-icmp {
+  margin: 15px;
+}
+.proto4-tcp {
+  margin: 15px;
+}
+.proto4-udp {
+  margin: 15px;
 }
 </style>
 
