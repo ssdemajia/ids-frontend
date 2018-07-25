@@ -2,7 +2,6 @@
 <div class="EventContent">
   <el-table 
     :border="true"
-    :height="auto"
     :data="currentEvent"
     style="width: 100%">
     <el-table-column

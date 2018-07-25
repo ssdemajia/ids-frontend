@@ -4,15 +4,16 @@
     <div class="dashboard-text">roles:<span v-for='role in roles' :key='role'>{{role}}</span></div>
      -->
     <el-row :gutter="8">
-      <el-col :span="4"></el-col>
-      <el-col :span="20"></el-col>
+      <el-col :span="4"><summary-box></summary-box></el-col>
+      <el-col :span="20"><detail-table></detail-table></el-col>
     </el-row>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-
+import SummaryBox from './components/SummaryBox'
+import DetailTable from './components/DetailTable'
 export default {
   name: 'dashboard',
   computed: {
@@ -22,7 +23,8 @@ export default {
     ])
   },
   components: {
-   
+    SummaryBox,
+    DetailTable
   }
 }
 </script>

@@ -26,58 +26,100 @@ export const constantRouterMap = [
   { path: '/404', component: () => import('@/views/404'), hidden: true },
 
   {
-    path: '/',
+    path: '',
     component: Layout,
-    redirect: '/dashboard',
-    name: 'Dashboard',
-    hidden: true,
+    redirect: 'dashboard',
+    name: '主界面',
     children: [
       {
         path: 'dashboard',
-        component: () => import('@/views/dashboard/index')
-      },
-      {
-        path: 'event/:id',
-        component: () => import('@/views/dashboard/event')
+        component: () => import('@/views/dashboard/index'),
+        // name: 'dashboard',
+        meta: { title: '主界面', icon: 'example', noCache: true }
       }
     ]
   },
-
+  // {
+  //   path: '/dashboard',
+  //   component: Layout,
+  //   // redirect: '/dashboard',
+  //   name: '主界面',
+  //   component: () => import('@/views/dashboard/index'),
+  //   meta: { title: '主界面', icon: 'example', noCache: true }
+  // },
+  // {
+  //   path: '/example',
+  //   component: Layout,
+  //   redirect: '/example/table',
+  //   name: 'Example',
+  //   meta: { title: 'Example', icon: 'example' },
+  //   children: [
+  //     {
+  //       path: 'table',
+  //       name: 'Table',
+  //       component: () => import('@/views/table/index'),
+  //       meta: { title: 'Table', icon: 'table' }
+  //     },
+  //     {
+  //       path: 'tree',
+  //       name: 'Tree',
+  //       component: () => import('@/views/tree/index'),
+  //       meta: { title: 'Tree', icon: 'tree' }
+  //     }
+  //   ]
+  // },
   {
-    path: '/example',
-    component: Layout,
-    redirect: '/example/table',
-    name: 'Example',
-    meta: { title: 'Example', icon: 'example' },
-    children: [
-      {
-        path: 'table',
-        name: 'Table',
-        component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
-      },
-      {
-        path: 'tree',
-        name: 'Tree',
-        component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
-      }
-    ]
-  },
-
-  {
-    path: '/form',
+    path: '/events',
     component: Layout,
     children: [
       {
         path: 'index',
-        name: 'Form',
-        component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        component: () => import('@/views/events/index'),
+        meta: { title: '入侵事件', icon: 'eye' }
+      },
+      {
+        hidden: true,
+        path: 'event/:id',
+        component: () => import('@/views/events/event')
       }
     ]
   },
-
+  // {
+  //   path: '/form',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Form',
+  //       component: () => import('@/views/form/index'),
+  //       meta: { title: 'Form', icon: 'form' }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/upload',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'upload',
+        component: () => import('@/views/upload/index'),
+        meta: { title: '协议识别', icon: 'form' }
+      }
+    ]
+  },
+  {
+    path: '/watch',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'watch',
+        component: () => import('@/views/upload/index'),
+        meta: { title: '流量监控', icon: 'star' }
+      }
+    ]
+  },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
