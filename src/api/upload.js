@@ -15,7 +15,17 @@ export function getDissectPacket(filename) {
 
 export function removeFile(filename) {
   return request({
-    url: `/delete/${filename}`,
+    url: `/upload/${filename}`,
     method: 'delete'
+  })
+}
+export function getPacketDetail(id, filename) {
+  return request({
+    url: '/upload/packet',
+    method: 'post',
+    data: {
+      id,
+      filename
+    }
   })
 }

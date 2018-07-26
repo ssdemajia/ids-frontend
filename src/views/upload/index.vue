@@ -12,35 +12,46 @@
           :before-remove="beforeRemove"
           :before-upload="beforeUpload"
           :file-list="fileList">
-          <el-button class="btn" type="success">点击上传流量包</el-button>
-          <div class="upload-tip" slot="tip">只能上传pcap文件</div>         
+          <el-row>
+            <el-button class="btn" type="success">点击上传流量包</el-button>
+          </el-row>
+          <el-row>
+            <div class="upload-tip" slot="tip">只能上传pcap文件</div>
+          </el-row>         
         </el-upload>
       </el-col>
       <el-col :span="20">
         <el-table
+          height="1080"
           :border="true"
           :data="pcap">
           <el-table-column
-            label="时间"
+            width="80"
+            label="序号"
+            prop="id">
+          </el-table-column>
+          <el-table-column
+            width="80"
+            label="时间(s)"
             prop="time">
           </el-table-column>
           <el-table-column
+            width="80"
+            label="长度"
+            prop="length">
+          </el-table-column>
+          <el-table-column
+            width="160"
             label="源地址"
             prop="src">
           </el-table-column>
           <el-table-column
+            width="160"
             label="目的地址"
             prop="dst">
           </el-table-column>
           <el-table-column
-            label="源端口"
-            prop="port_src">
-          </el-table-column>
-          <el-table-column
-            label="目的端口"
-            prop="port_dst">
-          </el-table-column>
-          <el-table-column
+            width="80"
             label="协议"
             prop="protocol">
           </el-table-column>
@@ -49,11 +60,11 @@
             prop="info">
           </el-table-column>
          <el-table-column
+            width="120"
             label="操作"
-            fixed="right"
-            style="width: 40px">
+            fixed="right">
             <template slot-scope="scope">
-            <el-button type="primary">查看详情</el-button>
+            <el-button type="primary" @click="showDetail(scope.row)">查看详情</el-button>
           </template>
          </el-table-column>
         </el-table>
@@ -64,7 +75,7 @@
 
 <script>
 import PacketTable from '@/views/upload/components/PacketTable'
-import { getUpLoadFileList, getDissectPacket, removeFile} from '@/api/upload'
+import { getUpLoadFileList, getDissectPacket, removeFile, getPacketDetail} from '@/api/upload'
 
 export default {
   data() {
@@ -81,17 +92,20 @@ export default {
       //     info: "LALALALAL"
       //   }
       // ]
+      currentFile: "",
       pcap: []
     }
   },
   methods: {
     handleSuccess(reponse, file, fileList) {
+      this.currentFile = file.name
       this.pcap = reponse
       // console.log(reponse)
       // console.log(file)
 
     },
     handlePreview(file) { //点击已上传文件列表
+    this.currentFile = file.name
       new Promise((resolve, reject) => {
         var filename = file.name
         getDissectPacket(filename).then(response => {
@@ -139,6 +153,25 @@ export default {
         return true
       }
       return this.$message.error("上传的文件必须是pcap文件")
+    },
+    showDetail(row) {
+      var id = row.id
+      getPacketDetail(id, this.currentFile).then((reponse) => {
+        var info = reponse.result
+        const h = this.$createElement
+        this.$msgbox({
+          title: '协议详细信息',
+          message: h(PacketTable, {
+            props: {
+              info: info
+            }
+          }),
+          showCancelButton: false,
+          confirmButtonText: "返回",
+          cancelButtonText: '',
+
+        })
+      })
     }
   },
   mounted() {

@@ -115,7 +115,7 @@ export const constantRouterMap = [
       {
         path: 'index',
         name: 'watch',
-        component: () => import('@/views/upload/index'),
+        component: () => import('@/views/watch/index'),
         meta: { title: '流量监控', icon: 'star' }
       }
     ]
