@@ -70,14 +70,18 @@
         </el-table>
       </el-col>
     </el-row>
+    <packet-detail :info="packetSpecify" :dialogVisible="packetDialogVisible"></packet-detail>
   </div>
 </template>
 
 <script>
-import PacketTable from '@/views/upload/components/PacketTable'
+import PacketDetail from '@/views/upload/components/PacketDetail'
 import { getUpLoadFileList, getDissectPacket, removeFile, getPacketDetail} from '@/api/upload'
 
 export default {
+  components: {
+    PacketDetail
+  },
   data() {
     return {
       fileList: [],
@@ -93,7 +97,9 @@ export default {
       //   }
       // ]
       currentFile: "",
-      pcap: []
+      pcap: [],
+      packetSpecify: [],
+      packetDialogVisible: false
     }
   },
   methods: {
@@ -157,20 +163,11 @@ export default {
     showDetail(row) {
       var id = row.id
       getPacketDetail(id, this.currentFile).then((reponse) => {
-        var info = reponse.result
-        const h = this.$createElement
-        this.$msgbox({
-          title: '协议详细信息',
-          message: h(PacketTable, {
-            props: {
-              info: info
-            }
-          }),
-          showCancelButton: false,
-          confirmButtonText: "返回",
-          cancelButtonText: '',
-
-        })
+        const info = reponse.result
+        console.log(id)
+        
+        this.packetSpecify = info
+        this.packetDialogVisible = true
       })
     }
   },
@@ -197,6 +194,7 @@ export default {
 
 <style lang="scss" scoped>
 div.container {
+  background-color: #f0f2f5;
   padding: 20px;
   .upload-tip {
     margin-top: 20px;
@@ -205,4 +203,7 @@ div.container {
   //   margin-left: 20px;
   // }
 }
+// .el-message-box {
+//   width: 800px;
+// }
 </style>

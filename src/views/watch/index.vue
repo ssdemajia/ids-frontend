@@ -154,6 +154,7 @@ export default {
 
 <style lang="scss" scoped>
 .container {
+  background-color: #f0f2f5;
   padding: 20px;
   .control-btn {
     margin-top: 20px;
