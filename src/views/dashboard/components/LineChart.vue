@@ -72,10 +72,10 @@ export default {
     }
   },
   methods: {
-    setOptions({ expectedData, actualData } = {}) {
+    setOptions({ xdata, ydata } = {}) {
       this.chart.setOption({
         xAxis: {
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: xdata,
           boundaryGap: false,
           axisTick: {
             show: false
@@ -93,7 +93,7 @@ export default {
           axisPointer: {
             type: 'cross'
           },
-          padding: [5, 10]
+          padding: 5
         },
         yAxis: {
           axisTick: {
@@ -101,10 +101,10 @@ export default {
           }
         },
         legend: {
-          data: ['expected', 'actual']
+          data: '事件数量'
         },
-        series: [{
-          name: 'expected', itemStyle: {
+        series: {
+          name: '事件数', itemStyle: {
             normal: {
               color: '#FF005A',
               lineStyle: {
@@ -115,30 +115,14 @@ export default {
           },
           smooth: true,
           type: 'line',
-          data: expectedData,
+          data: ydata,
           animationDuration: 2800,
           animationEasing: 'cubicInOut'
         },
-        {
-          name: 'actual',
-          smooth: true,
-          type: 'line',
-          itemStyle: {
-            normal: {
-              color: '#3888fa',
-              lineStyle: {
-                color: '#3888fa',
-                width: 2
-              },
-              areaStyle: {
-                color: '#f3f8ff'
-              }
-            }
-          },
-          data: actualData,
-          animationDuration: 2800,
-          animationEasing: 'quadraticOut'
-        }]
+        title: {
+          text: "事件数量走势",
+          left: "center"
+        }
       })
     },
     initChart() {

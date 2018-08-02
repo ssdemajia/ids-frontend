@@ -1,46 +1,46 @@
 <template>
   <el-row class="panel-group" :gutter="40">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class='card-panel' @click="handleSetLineChartData('newVisitis')">
+      <div class='card-panel' @click="handleSetLineChartData('3')">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">New Visits</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="102400" :duration="2600"></count-to>
+          <div class="card-panel-text">高级危险等级</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="highCount" :duration="2600"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('messages')">
+      <div class="card-panel" @click="handleSetLineChartData('2')">
         <div class="card-panel-icon-wrapper icon-message">
           <svg-icon icon-class="message" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Messages</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="81212" :duration="3000"></count-to>
+          <div class="card-panel-text">中级危险等级</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="mediumCount" :duration="3000"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('purchases')">
+      <div class="card-panel" @click="handleSetLineChartData('1')">
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="money" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Purchases</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="9280" :duration="3200"></count-to>
+          <div class="card-panel-text">低级危险等级</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="lowCount" :duration="3200"></count-to>
         </div>
       </div>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <div class="card-panel" @click="handleSetLineChartData('shoppings')">
+      <div class="card-panel" @click="handleSetLineChartData('0')">
         <div class="card-panel-icon-wrapper icon-shoppingCard">
           <svg-icon icon-class="shoppingCard" class-name="card-panel-icon" />
         </div>
         <div class="card-panel-description">
-          <div class="card-panel-text">Shoppings</div>
-          <count-to class="card-panel-num" :startVal="0" :endVal="13600" :duration="3600"></count-to>
+          <div class="card-panel-text">事件总数</div>
+          <count-to class="card-panel-num" :startVal="0" :endVal="allCount" :duration="3600"></count-to>
         </div>
       </div>
     </el-col>
@@ -49,8 +49,17 @@
 
 <script>
 import CountTo from 'vue-count-to'
+import { getEventCountBySig } from '@/api/count'
 
 export default {
+  data() {
+    return {
+      lowCount: 0,
+      mediumCount: 0,
+      highCount: 0,
+      allCount: 0
+    }
+  },
   components: {
     CountTo
   },
@@ -58,6 +67,25 @@ export default {
     handleSetLineChartData(type) {
       this.$emit('handleSetLineChartData', type)
     }
+  },
+  mounted() {
+    getEventCountBySig(3).then((response) => {
+      this.highCount = response.count
+    }).then(() => {
+      getEventCountBySig(2).then((response) => {
+        this.mediumCount = response.count
+      })
+    }).then(() => {
+      getEventCountBySig(1).then((response) => {
+        this.lowCount = response.count
+      })
+    }).then(() => {
+      getEventCountBySig(0).then((response) => {
+        this.allCount = response.count
+      })
+    }).catch((error) => {
+      console.log(error)
+    }) 
   }
 }
 </script>

@@ -4,17 +4,26 @@
     <div class="dashboard-text">roles:<span v-for='role in roles' :key='role'>{{role}}</span></div>
      -->
     <el-row class="container">
-      <el-col :span="18"> <!--主栏 -->
+      <el-col :span="24"> <!--主栏 -->
         <el-row> 
           <panel-group @handleSetLineChartData="handleSetLineChartData"></panel-group>
         </el-row>
         <el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
           <line-chart :chart-data="lineChartData"></line-chart>
         </el-row> <!-- 图表 -->
+        <el-row :gutter="20">
+          <el-col :span="8">
+            <top-table></top-table>
+          </el-col>
+          <el-col :span="8">
+            <event-count-table></event-count-table>
+          </el-col>
+          <el-col :span="8">
+            <vul-lib></vul-lib>
+          </el-col>
+        </el-row>
       </el-col>
-      <el-col :span="6"> <!--右侧栏 -->
-
-      </el-col>
+      
     </el-row>
   </div>
 </template>
@@ -22,27 +31,47 @@
 <script>
 import PanelGroup from './components/PanelGroup'
 import LineChart from './components/LineChart'
-// 按需引入 引入 ECharts 主模块
-var echarts = require('echarts/lib/echarts');
-// 引入柱状图
-require('echarts/lib/chart/bar');
-// 引入提示框和标题组件
-require('echarts/lib/component/tooltip');
-require('echarts/lib/component/title');
+import TopTable from './components/TopTable'
+import EventCountTable from './components/EventCountTable'
+import VulLib from './components/VulLib'
+import { getEventCountBySig, getEventCountByTime } from '@/api/count'
 
 export default {
+  data() {
+    return {
+      dataSig: 0,
+      lineChartData: {
+        xdata: [0, 0, 0, 0], 
+        ydata: [0, 0, 0, 0]},
+      dataType: 'day'
+    }
+  },
   methods: {
-    initCharts() {
-      this.chart = echarts.init(this.$el);
-      this.setOptions();
-    },
-    setOptions() {
-
+    handleSetLineChartData(type) {
+      this.dataSig = type
+      // console.log(type)
+      getEventCountByTime(this.dataType, this.dataSig).then((response) => {
+      // console.log(response.counts);
+      const lineData = response.counts
+      let xdata = [];
+      let ydata = [];
+      for (let i = 0; i < lineData.length; i++) {
+        ydata.push(lineData[i][0]);
+        xdata.push(lineData[i].slice(1).join('.'))      
+      }
+      this.lineChartData = {xdata, ydata}
+    })
     }
   },
   components: {
     PanelGroup,
-    LineChart
+    LineChart,
+    TopTable,
+    EventCountTable,
+    VulLib
+  },
+  mounted() {
+    this.handleSetLineChartData(0)
   }
 }
 </script>
