@@ -31,13 +31,17 @@ const event = {
     CHANGE_PAGE(state, index) {
       state.currentPage = index
     },
-    CHANGE_EVENT(state, events) {
+    CHANGE_EVENTS(state, events) {
+      // 加载事件
       state.current_events = []
       state.current_events = events
-      // console.log('Add event to current_events')
     },
     UPDATE_EVENT_COUNT(state, count) {
       state.event_count[count.type] = count.count
+    },
+    CHANGE_EVENT(state, event) {
+      // 改变当前store中的event
+      state.current_event = event
     }
   },
   actions: {
@@ -64,7 +68,7 @@ const event = {
             }
             mEvents.push(mEvent)
           }
-          context.commit('CHANGE_EVENT', mEvents)
+          context.commit('CHANGE_EVENTS', mEvents)
           resolve(response)
         }).catch(err => {
           console.log('getEvent error')

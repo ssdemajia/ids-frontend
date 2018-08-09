@@ -17,3 +17,10 @@ export function getEventTopCountByNum(num) {
     method: 'GET'
   })
 }
+
+export function getVulTop() {
+  return request({
+    url: '/dashboard/vul/top',
+    method: 'GET'
+  })
+}

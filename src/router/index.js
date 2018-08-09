@@ -39,35 +39,6 @@ export const constantRouterMap = [
       }
     ]
   },
-  // {
-  //   path: '/dashboard',
-  //   component: Layout,
-  //   // redirect: '/dashboard',
-  //   name: '主界面',
-  //   component: () => import('@/views/dashboard/index'),
-  //   meta: { title: '主界面', icon: 'example', noCache: true }
-  // },
-  // {
-  //   path: '/example',
-  //   component: Layout,
-  //   redirect: '/example/table',
-  //   name: 'Example',
-  //   meta: { title: 'Example', icon: 'example' },
-  //   children: [
-  //     {
-  //       path: 'table',
-  //       name: 'Table',
-  //       component: () => import('@/views/table/index'),
-  //       meta: { title: 'Table', icon: 'table' }
-  //     },
-  //     {
-  //       path: 'tree',
-  //       name: 'Tree',
-  //       component: () => import('@/views/tree/index'),
-  //       meta: { title: 'Tree', icon: 'tree' }
-  //     }
-  //   ]
-  // },
   {
     path: '/events',
     component: Layout,
@@ -84,18 +55,6 @@ export const constantRouterMap = [
       }
     ]
   },
-  // {
-  //   path: '/form',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'index',
-  //       name: 'Form',
-  //       component: () => import('@/views/form/index'),
-  //       meta: { title: 'Form', icon: 'form' }
-  //     }
-  //   ]
-  // },
   {
     path: '/upload',
     component: Layout,
@@ -117,6 +76,30 @@ export const constantRouterMap = [
         name: 'watch',
         component: () => import('@/views/watch/index'),
         meta: { title: '流量监控', icon: 'star' }
+      }
+    ]
+  },
+  {
+    path: '/vulnerability',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'vulnerability',
+        component: () => import('@/views/vulnerability/index'),
+        meta: { title: '漏洞库', icon: 'table' }
+      }
+    ]
+  },
+  {
+    path: '/scanner',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'scanner',
+        component: () => import('@/views/scanner/index'),
+        meta: { title: '设备识别', icon: 'edit' }
       }
     ]
   },

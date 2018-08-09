@@ -4,18 +4,20 @@
       <div slot="header">最新漏洞信息</div>
     <el-row>
       <el-table
-      :data="events">
+      :data="vuls">
       <el-table-column
-        prop="vul_name"
+        fit="false"
+        :show-overflow-tooltip="true"
+        prop="title"
         label="漏洞名">
       </el-table-column>
       <el-table-column
-        prop="vul_time"
+        prop="date"
         label="时间"
         width="100">
       </el-table-column>
       <el-table-column
-        prop="vul_level"
+        prop="level"
         label="危害级别"
         width="100">
       </el-table-column>
@@ -25,21 +27,24 @@
   </div>
 </template>
 <script>
-import { getEventTopCountByNum } from "@/api/count"
+import { getVulTop } from "@/api/count"
 export default {
   data() {
     return {
       vuls: [
         {
-          vul_name:'',
+          vul_name: null,
           vul_time: 0,
-          vul_level: 0
+          level: 0
         }
       ]
     }
   },
   mounted() {
-    
+    getVulTop().then((response) => {
+      console.log(response.result)
+      this.vuls = response.result
+    })
   }
 }
 </script>

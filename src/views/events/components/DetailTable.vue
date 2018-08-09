@@ -64,8 +64,9 @@
 export default {
   methods: {
     handler(row) {
-      this.$store.state.event.current_event = row
-      this.$router.push('/event/' + row.cid)
+      this.$store.commit('CHANGE_EVENT', row)
+      console.log(row.cid)
+      this.$router.push('/events/event/' + row.cid)
     },
     getHeight() {
       return 800

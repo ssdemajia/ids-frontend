@@ -6,21 +6,30 @@ export function monitorInterface() {
     method: 'get'
   })
 }
-export function startMonitor(inter) {
+export function startMonitor(count, inter) {
   return request({
-    url: `/monitor/start/${inter}`,
-    method: 'get'
+    url: '/monitor/start',
+    method: 'post',
+    data: {
+      inter,
+      count
+    }
   })
 }
-export function stopMonitor(inter) {
+// }
+// export function stopMonitor(inter) {
+//   return request({
+//     url: `/monitor/stop/${inter}`,
+//     method: 'get'
+//   })
+// }
+export function getPacket(start, end) {
   return request({
-    url: `/monitor/stop/${inter}`,
-    method: 'get'
-  })
-}
-export function getPacket(id) {
-  return request({
-    url: `/monitor/packet/${id}`,
-    method: 'get'
+    url: '/monitor/packet',
+    method: 'post',
+    data: {
+      start,
+      end
+    }
   })
 }
