@@ -24,7 +24,7 @@
           </el-table-column>
           <el-table-column
             label="时间"
-            prop="timestamps">
+            prop="timestamp">
           </el-table-column>
         </el-table>
       </el-col>

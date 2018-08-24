@@ -5,7 +5,7 @@
     :data="currentEvent"
     style="width: 100%">
     <el-table-column
-      label="序号"
+      label="事件序号"
       prop="cid">
     </el-table-column>
     <el-table-column

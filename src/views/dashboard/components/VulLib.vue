@@ -44,6 +44,9 @@ export default {
     getVulTop().then((response) => {
       console.log(response.result)
       this.vuls = response.result
+      this.vuls.filter((item) => {
+        item.level = item.level[0]
+      })
     })
   }
 }

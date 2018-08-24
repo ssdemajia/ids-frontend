@@ -56,6 +56,7 @@
             prop="protocol">
           </el-table-column>
           <el-table-column
+            show-overflow-tooltip="True"
             label="信息"
             prop="info">
           </el-table-column>
