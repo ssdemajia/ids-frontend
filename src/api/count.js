@@ -20,7 +20,7 @@ export function getEventTopCountByNum(num) {
 
 export function getVulTop() {
   return request({
-    url: '/dashboard/vul/top',
+    url: '/vul/top',
     method: 'GET'
   })
 }

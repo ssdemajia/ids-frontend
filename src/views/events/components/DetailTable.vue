@@ -37,7 +37,7 @@
       label="威胁等级"
       >
       <template slot-scope="scope">
-        <el-tag :type="priority_map[scope.row.sig_priority]">优先级:{{scope.row.sig_priority}}</el-tag>
+        <el-tag :type="priority_map[scope.row.sig_priority]" >优先级:{{scope.row.sig_priority}}</el-tag>
       </template>
     </el-table-column>
     <el-table-column

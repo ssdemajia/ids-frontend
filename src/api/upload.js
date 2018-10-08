@@ -6,13 +6,16 @@ export function getUpLoadFileList() {
     method: 'get'
   })
 }
-export function getDissectPacket(filename) {
+export function getDissectPacket(filename, start, end) {
   return request({
     url: `/upload/${filename}`,
-    method: 'get'
+    method: 'POST',
+    data: {
+      start,
+      end
+    }
   })
 }
-
 export function removeFile(filename) {
   return request({
     url: `/upload/${filename}`,
@@ -27,5 +30,11 @@ export function getPacketDetail(id, filename) {
       id,
       filename
     }
+  })
+}
+export function getPacketsLength(filename) {
+  return request({
+    url: `/upload/${filename}`,
+    method: 'GET'
   })
 }

@@ -22,7 +22,10 @@
       </el-col>
       <el-col :span="20">
         <el-table
-          height="1080"
+          v-loading="isLoading"
+          element-loading-text="解析中"
+          element-loading-spinner="el-icon-loading"
+          max-height="860"
           :border="true"
           :data="pcap">
           <el-table-column
@@ -41,17 +44,17 @@
             prop="length">
           </el-table-column>
           <el-table-column
-            width="160"
+            width="140"
             label="源地址"
             prop="src">
           </el-table-column>
           <el-table-column
-            width="160"
+            width="140"
             label="目的地址"
             prop="dst">
           </el-table-column>
           <el-table-column
-            width="80"
+            width="120"
             label="协议"
             prop="protocol">
           </el-table-column>
@@ -69,15 +72,23 @@
           </template>
          </el-table-column>
         </el-table>
+        <el-pagination
+          layout="prev, pager, next"
+          :total="packetsLength"
+          @current-change="nextPage"
+        > 
+        </el-pagination>
       </el-col>
+      
     </el-row>
+    
     <packet-detail :info="packetSpecify" :dialogVisible="packetDialogVisible"></packet-detail>
   </div>
 </template>
 
 <script>
 import PacketDetail from '@/views/upload/components/PacketDetail'
-import { getUpLoadFileList, getDissectPacket, removeFile, getPacketDetail} from '@/api/upload'
+import { getUpLoadFileList, getDissectPacket, removeFile, getPacketDetail, getPacketsLength} from '@/api/upload'
 
 export default {
   components: {
@@ -100,10 +111,24 @@ export default {
       currentFile: "",
       pcap: [],
       packetSpecify: [],
-      packetDialogVisible: false
+      packetDialogVisible: false,
+
+      packetsLength: 0,
+      pageSize: 12,
+      isLoading: false
     }
   },
   methods: {
+    nextPage(page) {
+      var start = (page-1) * this.pageSize < 1? 1: (page-1) * this.pageSize
+      var end = page * this.pageSize > this.packetsLength ? this.packetsLength: page * this.pageSize
+      var filename = this.currentFile
+      this.isLoading = true
+      getDissectPacket(filename, start, end).then(response => {
+          this.pcap = response.result
+          this.isLoading = false
+      })
+    },
     handleSuccess(reponse, file, fileList) {
       this.currentFile = file.name
       this.pcap = reponse
@@ -112,15 +137,21 @@ export default {
 
     },
     handlePreview(file) { //点击已上传文件列表
-    this.currentFile = file.name
-      new Promise((resolve, reject) => {
-        var filename = file.name
-        getDissectPacket(filename).then(response => {
+      var filename = file.name
+      this.currentFile = filename
+      this.isLoading = true
+      getPacketsLength(filename).then(response => {
+        this.packetsLength = response.length
+      }).then(() => {
+        var start = 1;
+        var end = this.pageSize > this.packetsLength ? this.packetsLength: this.pageSize
+        getDissectPacket(filename, start, end).then(response => {
           this.pcap = response.result
-          resolve(response)
+          this.isLoading = false
         })
+      }).catch(err => {
+        this.isLoading = false
       })
-      // console.log(file);
     },
     handleRemove(file, fileList) {
       console.log(file, fileList)
