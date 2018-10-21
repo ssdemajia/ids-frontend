@@ -57,3 +57,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.menu-wrapper .router-link {
+  background-color: #2D2B3A;
+}
+</style>

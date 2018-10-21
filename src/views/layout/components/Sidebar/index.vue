@@ -2,12 +2,13 @@
   <el-scrollbar wrapClass="scrollbar-wrapper">
     <el-menu
       mode="vertical"
-      :show-timeout="200"
+      :show-timeout="100"
       :default-active="$route.path"
       :collapse="isCollapse"
-      background-color="#304156"
+      background-color="#2D2B3A"
       text-color="#bfcbd9"
-      active-text-color="#409EFF"
+      active-text-color="#857ce9"
+      width="100"
     >
       <sidebar-item :routes="routes"></sidebar-item>
     </el-menu>
@@ -33,3 +34,7 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
