@@ -2,9 +2,8 @@
   <div class="dashboard-container">
     <el-row>
       <el-col :span="6"> 
-        <el-row>漏洞数，五天变化</el-row>
-        <el-row>最新漏洞</el-row>
-        <el-row></el-row>
+        <el-row><score/></el-row>
+        <el-row><recent-vul/></el-row>
       </el-col>
       <el-col :span="12">
         <el-row><intrusion-map/></el-row>
@@ -14,7 +13,7 @@
       </el-col>
       <el-col :span="6">
         <el-row><system-info/></el-row>
-        <el-row><top-table></top-table></el-row>
+        <el-row><top-event></top-event></el-row>
         <el-row></el-row>
       </el-col>
     </el-row>
@@ -22,23 +21,21 @@
 </template>
 
 <script>
-import EventGroup from './components/EventGroup' // 
-import TopTable from './components/TopTable' // Top10 事件数
-import EventCountTable from './components/EventCountTable'
-
-import VulLib from './components/VulLib'   // 最新漏洞分布
-import TopVul from './components/TopVul' 
-
-import IntrusionMap from './components/Map' //  入侵事件分布
+import EventGroup from './components/EventGroup' // 入侵事件时间分布
+import Score from './components/Score' // 态势感知评估
+import RecentVul from './components/RecentVul'  // 最近的事件
+import TopEvent from './components/TopEvent'  // Top事件
+import IntrusionMap from './components/MapGroup' //  入侵事件分布
 import SystemInfo from './components/SystemInfo'  // 系统状态信息线
-import EventPie from './components/PieChart' // 事件协议分布派图
 
 export default {
   components: {
     EventGroup,
     IntrusionMap,
     SystemInfo,
-    TopTable
+    TopEvent,
+    RecentVul,
+    Score
   }
 }
 </script>

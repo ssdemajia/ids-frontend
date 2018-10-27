@@ -62,6 +62,7 @@ export default {
     z-index: 999;
   }
   .main-container {
-    background: rgb(27, 27, 27);
+    // background: rgb(27, 27, 27);
+    background-color: #000;
   }
 </style>

@@ -1,6 +1,13 @@
 <template>
   <div class="login-container">
+    <vue-canvas-nest 
+      :config="{color:'255,255,255', count: 300, opacity: 0.9}">
+    </vue-canvas-nest>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
+      <div class="logo-container">
+        <svg-icon class="logo" icon-class="logo"/>
+      </div>
+      
       <h3 class="title">工控安全态势感知平台</h3>
       <el-form-item prop="username">
         <span class="svg-container svg-container_login">
@@ -18,82 +25,92 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
-          Sign in
+          登录
         </el-button>
       </el-form-item>
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: admin</span>
+        <span style="margin-right:20px;">版权所有</span>
+        <span> 501实验室</span>
       </div>
     </el-form>
   </div>
 </template>
 
 <script>
-import { isvalidUsername } from '@/utils/validate'
-
+import { isvalidUsername } from "@/utils/validate";
+import vueCanvasNest from "vue-canvas-nest";
 export default {
-  name: 'login',
+  components: {
+    vueCanvasNest
+  },
+  name: "login",
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!isvalidUsername(value)) {
-        callback(new Error('请输入正确的用户名'))
+        callback(new Error("请输入正确的用户名"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     const validatePass = (rule, value, callback) => {
       if (value.length < 5) {
-        callback(new Error('密码不能小于5位'))
+        callback(new Error("密码不能小于5位"));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
     return {
       loginForm: {
-        username: 'admin',
-        password: 'admin'
+        username: "admin",
+        password: "admin"
       },
       loginRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        password: [{ required: true, trigger: 'blur', validator: validatePass }]
+        username: [
+          { required: true, trigger: "blur", validator: validateUsername }
+        ],
+        password: [{ required: true, trigger: "blur", validator: validatePass }]
       },
       loading: false,
-      pwdType: 'password'
-    }
+      pwdType: "password"
+    };
   },
   methods: {
     showPwd() {
-      if (this.pwdType === 'password') {
-        this.pwdType = ''
+      if (this.pwdType === "password") {
+        this.pwdType = "";
       } else {
-        this.pwdType = 'password'
+        this.pwdType = "password";
       }
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('Login', this.loginForm).then(() => {
-            this.loading = false
-            this.$router.push({ path: '/' })
-          }).catch((err) => {
-            console.log('handleLogin', err)
-            this.loading = false
-          })
+          this.loading = true;
+          this.$store
+            .dispatch("Login", this.loginForm)
+            .then(() => {
+              this.loading = false;
+              this.$router.push({ path: "/" });
+            })
+            .catch(err => {
+              console.log("handleLogin", err);
+              this.loading = false;
+            });
         } else {
-          console.log('error submit!!')
-          return false
+          console.log("error submit!!");
+          return false;
         }
-      })
+      });
     }
   }
-}
+};
 </script>
 
+
 <style rel="stylesheet/scss" lang="scss">
-$bg:#2d3a4b;
-$light_gray:#eee;
+$bg: #2d3a4b;
+// $light_gray:#eee;
+$light_gray: #fff;
 
 /* reset element-ui css */
 .login-container {
@@ -121,26 +138,65 @@ $light_gray:#eee;
     border-radius: 5px;
     color: #454545;
   }
+  // .el-button {
+  //   background-color: #2d3a4b;
+  //   border: none;
+  // }
 }
-
 </style>
 
 <style rel="stylesheet/scss" lang="scss" scoped>
-$bg:#2d3a4b;
-$dark_gray:#889aa4;
-$light_gray:#eee;
+$bg: #000;
+$dark_gray: #889aa4;
+// $light_gray:#eee;
+$light_gray: #009deb;
+
 .login-container {
   position: fixed;
   height: 100%;
   width: 100%;
   background-color: $bg;
+  background-image: url('/src/assets/ics3.jpg');
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-size: 100% auto;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(0,0,0,.8);
+    z-index: -1;
+  }
+  .logo-container {
+    animation: rotation 3s linear infinite;
+    width: 140px;
+    height: 140px;
+    margin: 30px auto;
+    .logo {
+      color: white;
+      height: 100%;
+      width: 100%;
+    }
+    @keyframes rotation {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
   .login-form {
     position: absolute;
     left: 0;
     right: 0;
     width: 520px;
     padding: 35px 35px 15px 35px;
-    margin: 120px auto;
+    margin: 140px auto;
   }
   .tips {
     font-size: 14px;
@@ -163,7 +219,7 @@ $light_gray:#eee;
     }
   }
   .title {
-    font-size: 26px;
+    font-size: 32px;
     font-weight: 400;
     color: $light_gray;
     margin: 0px auto 40px auto;

@@ -3,21 +3,21 @@
     <el-col  class="card-panel-col">
       <div class='card-panel' @click="handleSetLineChartData('3')">
         <div class="card-panel-description">
-          <div class="card-panel-text">高级危险等级</div>
+          <div class="card-panel-text">高危事件</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="highCount" :duration="2600"></count-to>
         </div>
       </div>
 
        <div class="card-panel" @click="handleSetLineChartData('2')">
         <div class="card-panel-description">
-          <div class="card-panel-text">中级危险等级</div>
+          <div class="card-panel-text">中危事件</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="mediumCount" :duration="3000"></count-to>
         </div>
       </div>
 
       <div class="card-panel" @click="handleSetLineChartData('1')">
         <div class="card-panel-description">
-          <div class="card-panel-text">低级危险等级</div>
+          <div class="card-panel-text">低级威胁</div>
           <count-to class="card-panel-num" :startVal="0" :endVal="lowCount" :duration="3200"></count-to>
         </div>
       </div>
@@ -91,7 +91,7 @@ export default {
     box-shadow: 4px 4px 40px rgba(0, 0, 0, 0.05);
     border-color: rgba(50, 46, 255, 0.05);
     border-radius: 14px;
-    margin: 0 15px 35px 15px;
+    margin: 0 25px 35px 25px;
     &:first-child{
       margin-top: 35px;
     }
@@ -112,20 +112,9 @@ export default {
         background: #34bfa3;
       }
     }
-    // .card-panel-icon-wrapper {
-    //   float: left;
-    //   margin: 6px 0 0 16px;
-    //   padding: 6px;
-    //   transition: all 0.38s ease-out;
-    //   border-radius: 3px;
-    // }
-    // .card-panel-icon {
-    //   float: left;
-    //   font-size: 24px;
-    // }
     .card-panel-description {
       font-weight: bold;
-      margin-left: 14px;
+      margin-left: 20px;
       margin-top: 14px;
       
       .card-panel-text {

@@ -8,6 +8,16 @@
 .el-upload__input {
   display: none;
 }
+.el-table tr,
+.el-table th {
+  background-color: black;
+  color: white;
+}
+.el-card__header {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #409eff;
+}
 
 //暂时性解决diolag 问题 https://github.com/ElemeFE/element/issues/2461
 .el-dialog {

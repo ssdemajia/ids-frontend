@@ -54,12 +54,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.EventGroupWrapper {
+  margin-top: 12px;
+}
 .EventHander {
   padding: 5px 0px;
-  border-top: 3px solid #2f21c4;
-  border-bottom: 3px solid #2f21c4;
+  border-top: 2px solid #409eff;
+  border-bottom: 2px solid #409eff;
   text-align: center;
   color: white;
-  font-size: 24px;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 12px 0;
 }
 </style>

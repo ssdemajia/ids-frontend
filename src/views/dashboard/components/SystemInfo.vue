@@ -130,7 +130,7 @@ export default {
               ]
             },
             itemStyle: {
-              color: "#00ff00"
+              color: "#409eff"
             },
             areaStyle: {}
           },
