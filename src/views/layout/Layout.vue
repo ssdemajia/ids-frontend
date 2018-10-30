@@ -63,6 +63,6 @@ export default {
   }
   .main-container {
     // background: rgb(27, 27, 27);
-    background-color: #000;
+    // background-color: #000;
   }
 </style>

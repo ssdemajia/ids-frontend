@@ -1,29 +1,28 @@
-import { insertRecord, getAllScanRecord } from '@/api/scan'
+import { insertRecord, getAllScanTasks } from '@/api/scan'
 
-var record = {
+var task = {
   state: {
-    records: [],
-    current_record: {},
-    vuls: []
+    tasks: [],
+    current_task: [],
+    vuls: [],
   },
   mutations: {
-    INSERT_RECORD(state, record) {
-      state.records.push(record)
+    INSERT_TASKS(state, tasks) {
+      state.tasks = tasks
     },
-    INSERT_VUL(state, vul) {
-      console.log(vul)
-      state.vuls.push(vul)
+    // INSERT_VUL(state, vul) {
+    //   state.vuls.push(vul)
+    // },
+    SET_CURRENT_TASK(state, task) {
+      state.current_task = task
     },
-    SET_CURRENT_RECORD(state, record) {
-      state.current_record = record
-    },
-    DELETE_RECORD(state, record) {
-      if (state.current_record.ip === record.ip) {
-        state.current_record = {}
+    DELETE_RECORD(state, task) {
+      if (state.current_task.name === task.name) {
+        state.current_task = {}
       }
-      for (var i = 0; i < state.records.length; i++) {
-        if (state.records[i].ip === record.ip) {
-          state.records.splice(i, 1)
+      for (var i = 0; i < state.tasks.length; i++) {
+        if (state.tasks[i].name === task.name) {
+          state.tasks.splice(i, 1)
           break
         }
       }
@@ -33,12 +32,10 @@ var record = {
     }
   },
   actions: {
-    getRecords(context) {
-      getAllScanRecord().then((response) => {
-        const init_record = response.result
-        init_record.forEach(r => {
-          context.commit('INSERT_RECORD', r)
-        })
+    getTasks(context) {
+      getAllScanTasks().then((response) => {
+        const tasks = response.result
+        context.commit('INSERT_TASKS', tasks)
       })
     },
     insertScanRecord(context) {
@@ -69,4 +66,4 @@ var record = {
     }
   }
 }
-export default record
+export default task

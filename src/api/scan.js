@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
-// 获取所以记录
-export function getAllScanRecord() {
+// 获取所有扫描记录
+export function getAllScanTasks() {
   return request({
     url: `/vul/scan/all`,
     method: 'GET'
@@ -20,12 +20,12 @@ export function insertRecord(record) {
 }
 
 // 删除一个记录
-export function deleteRecord(ip) {
+export function deleteRecord(name) {
   return request({
     url: '/vul/delete',
     method: 'post',
     data: {
-      ip
+      name
     }
   })
 }
@@ -36,6 +36,29 @@ export function scanVul(record) {
     method: 'post',
     data: {
       info: record
+    }
+  })
+}
+
+export function createTask(name, ips) {
+  // 新建任务
+  return request({
+    url: '/vul/create_task',
+    method: 'post',
+    data: {
+      name,
+      ips
+    }
+  })
+}
+
+export function getVuls(ip) {
+  // 获得该设备漏洞信息
+  return request({
+    url: '/vul/vuls',
+    method: 'get',
+    params: {
+      ip
     }
   })
 }

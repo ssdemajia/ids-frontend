@@ -55,6 +55,10 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
+  beforeRouteLeave(to, from, next) {
+    clearTimeout(this.timer);
+    this.timer = null;
+  },
   watch: {
     chartData: {
       deep: true,

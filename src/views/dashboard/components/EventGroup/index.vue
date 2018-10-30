@@ -39,7 +39,6 @@ export default {
         y_sig3: lineData[2], 
         xdata: lineData[3]
       }
-      console.log(this.lineChartData)
       })
     }
   },

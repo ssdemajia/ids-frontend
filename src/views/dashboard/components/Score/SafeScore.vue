@@ -34,6 +34,10 @@ export default {
     clearTimeout(this.timer);
     this.timer = null;
   },
+  beforeRouteLeave(to, from, next) {
+    clearTimeout(this.timer);
+    this.timer = null;
+  },
   methods: {
     setScore() {
       getSafeScore().then((result) => {
@@ -42,7 +46,6 @@ export default {
         this.eventComplexity = result.score.eventComplexity
         this.attackVector = result.score.attackVector
         this.score = (this.scope+this.vulnerability+this.eventComplexity+this.attackVector)/4;
-        console.log(result.score);
         this.setOptions();
       })
     },
