@@ -10,10 +10,10 @@
     </el-col>
     <el-col :span="14">
       <el-row>
-        <vul-map/>
+        <vul-map :chartData="$store.state.task.tasks"/>
       </el-row>
       <el-row>
-        <vul-line/>
+        <ScorePanel/>
       </el-row>
     </el-col>
   </el-row>
@@ -27,8 +27,9 @@ import HistoryCard from "./components/HistoryCard";
 
 // import HistoryTable from './components/HistoryTable'
 import ControlPanel from './components/ControlPanel'
-import VulLine from './components/VulLine'
+// import VulLine from './components/VulLine'
 import VulMap from './components/VulMap'
+import ScorePanel from './components/ScorePanel'
 import { getAllScanRecord } from "@/api/scan";
 
 export default {
@@ -45,8 +46,8 @@ export default {
     // HistoryTable,
     HistoryCard,
     ControlPanel,
-    VulLine,
-    VulMap
+    VulMap,
+    ScorePanel
   },
   mounted() {
     this.$store.dispatch('getRecords')
@@ -55,9 +56,6 @@ export default {
 </script>
 
 <style scoped>
-.container {
-
-}
 .HistoryCard {
   margin-left: 8px;
 }

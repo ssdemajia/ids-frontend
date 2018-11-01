@@ -5,6 +5,9 @@ var task = {
     tasks: [],
     current_task: [],
     vuls: [],
+    current_device: {}, // 保存当前点击map中某一个设备时的数据
+    all_devices: [], // 保存所有tasks中的设备信息
+    socre: 100 // 保存当前device的安全系数
   },
   mutations: {
     INSERT_TASKS(state, tasks) {
@@ -27,8 +30,20 @@ var task = {
         }
       }
     },
-    EMPTY_VULS(state) {
-      state.vuls = []
+    UPDATE_DEVICES(state, devices) {
+      state.all_devices = devices
+    },
+    CHANGE_CURRENT_DEVICE(state, address) { // 遍历设置当前的设备信息
+      state.all_devices.forEach(device => {
+        if (address === device.address) {
+          state.current_device = device
+        }
+      })
+    },
+    UPDATE_SCORE(state) {
+      const vul_cat = state.current_device.vul_cat
+      console.log(vul_cat)
+      state.score = 100 - (vul_cat[0] * 3 + vul_cat[1] * 2 + vul_cat[2])
     }
   },
   actions: {

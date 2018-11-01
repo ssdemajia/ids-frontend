@@ -1,8 +1,10 @@
 <template>
   <div class="control-container">
-    <el-button  size="medium" type="primary" @click="()=>{this.dialogVisible = true}">
+    <div class="header">
+      <el-button  size="medium" type="primary" @click="()=>{this.dialogVisible = true}">
       新建任务
-    </el-button>
+      </el-button>
+    </div>
     <el-dialog
       width="30%"
       title="新建任务"
@@ -79,10 +81,12 @@ export default {
 <style lang="scss" scoped>
 .control-container {
   margin: 10px;
+  margin-top: 5px;
   text-align: center;
   .create-text {
     font-size: 24px;
     margin-right: 20px;
   }
 }
+
 </style>

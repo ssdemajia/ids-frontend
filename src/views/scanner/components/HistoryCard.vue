@@ -23,7 +23,7 @@
       </el-table-column>
       <el-table-column
         prop="date"
-        label="时间"
+        label="创建时间"
       >
       </el-table-column>
       
@@ -72,7 +72,7 @@ export default {
     };
   },
   mounted() {
-    this.timer = setTimeout(this.getTask, 1000);
+    this.timer = setTimeout(this.getTask, 5000);
     this.tableHeight = `${document.documentElement.clientHeight-250}px`;
   },
   props: {
@@ -85,10 +85,10 @@ export default {
   },
   methods: {
     getTask(){
-      console.log('lalalala');
+      // console.log('lalalala');
       
       this.$store.dispatch('getTasks');
-      this.timer = setTimeout(this.getTask, 1000);
+      this.timer = setTimeout(this.getTask, 5000);
     },
     del(task) {
       console.log('delete:', task)

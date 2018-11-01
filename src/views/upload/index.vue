@@ -25,7 +25,7 @@
           v-loading="isLoading"
           element-loading-text="解析中"
           element-loading-spinner="el-icon-loading"
-          max-height="860"
+          height="820"
           :border="true"
           :data="pcap">
           <el-table-column

@@ -1,6 +1,7 @@
 <template>
 <div class="EventContent">
   <el-table 
+    height="820"
     :border="true"
     :data="currentEvent"
     style="width: 100%">

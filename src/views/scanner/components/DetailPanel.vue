@@ -53,7 +53,6 @@ export default {
   },
   methods: {
     handlerClose() {
-      console.log('cao')
       this.isVulDetailVisible = false
     },
     getTagType(vul_cat) {
@@ -110,6 +109,9 @@ export default {
       for (let key in info) {
         if (key === "key") {
           continue;
+        }
+        if (!info[key]) {
+          continue
         }
         if (info[key].length == 0) {
           result[key] = "无";
