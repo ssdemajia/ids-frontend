@@ -106,13 +106,6 @@ export default {
           axisLine: { lineStyle: { color: "white" } },
           splitLine: {show: false},
         },
-        // grid: {
-        //   left: "2%",
-        //   right: "2%",
-        //   bottom: "5%",
-        //   top: "16%",
-        //   containLabel: true
-        // },
         series: [
           {
             name: "紧急事件",

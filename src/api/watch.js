@@ -6,6 +6,7 @@ export function monitorInterface() {
     method: 'get'
   })
 }
+
 export function startMonitor(count, inter) {
   return request({
     url: '/monitor/start',
@@ -16,13 +17,7 @@ export function startMonitor(count, inter) {
     }
   })
 }
-// }
-// export function stopMonitor(inter) {
-//   return request({
-//     url: `/monitor/stop/${inter}`,
-//     method: 'get'
-//   })
-// }
+
 export function getPacket(start, end) {
   return request({
     url: '/monitor/packet',
