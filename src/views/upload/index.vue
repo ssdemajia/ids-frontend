@@ -132,9 +132,6 @@ export default {
     handleSuccess(reponse, file, fileList) {
       this.currentFile = file.name
       this.pcap = reponse
-      // console.log(reponse)
-      // console.log(file)
-
     },
     handlePreview(file) { //点击已上传文件列表
       var filename = file.name
@@ -154,7 +151,6 @@ export default {
       })
     },
     handleRemove(file, fileList) {
-      console.log(file, fileList)
     },
     handleExceed(file, fileList) {
       this.$message.warning(`当前限制选择文件夹，本次共选${fileList.length}, 共选择${file.length + fileList.length}`)
@@ -176,16 +172,11 @@ export default {
           resolve()
         })
         .catch(() => {
-          // this.$message({
-          //   type: 'info',
-          //   message: '取消删除'
-          // })
           reject()
         })
       })
     },
     beforeUpload(file) {
-      // console.log(file)
       const isPcap = file.type === 'application/vnd.tcpdump.pcap'
       if (isPcap) {
         return true
@@ -196,7 +187,6 @@ export default {
       var id = row.id
       getPacketDetail(id, this.currentFile).then((reponse) => {
         const info = reponse.result
-        console.log(id)
         
         this.packetSpecify = info
         this.packetDialogVisible = true
@@ -207,7 +197,6 @@ export default {
     //更新已上传文件列表
     return new Promise((resolve, reject) => {
       getUpLoadFileList().then(response => {
-        console.log(response)
         var lists = response['lists']
         for (let i = 0; i < lists.length; i++) {
           this.fileList.push({

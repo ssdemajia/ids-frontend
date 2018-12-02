@@ -94,7 +94,6 @@ export default {
       return levels[level] + " level";
     },
     handleClick(item) {
-      console.log(item)
       if (item.cve === this.activeItem) {
         this.activeItem = "";
       } else {

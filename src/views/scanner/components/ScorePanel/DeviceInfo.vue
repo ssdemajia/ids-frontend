@@ -31,10 +31,8 @@ export default {
   methods: {
     getInfo() {
       var infos = this.data.info;
-      console.log(this.data);
       let result = {};
       for (let key in infos) {
-        console.log(key);
         if (key === "key" || key === "profile") {
           continue;
         }

@@ -89,7 +89,6 @@ export default {
     TCPPercent() {      
       var event_count = this.$store.state.event.event_count.event
       var tcp_event_count = this.$store.state.event.event_count.tcp
-      // console.log("event_count: "+ event_count + " tcp_event_count: " + tcp_event_count)
       if (tcp_event_count == 0 || event_count == 0) {
         return 0
       }
@@ -98,7 +97,6 @@ export default {
     UDPPercent() {
       var event_count = this.$store.state.event.event_count.event
       var udp_event_count = this.$store.state.event.event_count.udp
-      // console.log("event_count: "+ event_count + " udp_event_count: " + udp_event_count)
       if (udp_event_count == 0 || event_count == 0) {
         return 0
       }

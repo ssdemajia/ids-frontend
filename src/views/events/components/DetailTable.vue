@@ -66,7 +66,6 @@ export default {
   methods: {
     handler(row) {
       this.$store.commit('CHANGE_EVENT', row)
-      console.log(row.cid)
       this.$router.push('/events/event/' + row.cid)
     },
     getHeight() {
@@ -75,7 +74,6 @@ export default {
     handleCurrentChange(val) {
       this.$store.commit('CHANGE_PAGE', val)
       this.$store.dispatch('getEventFromServerV2')
-      // console.log(`当前页: ${val}`);
       window.scrollTo(0,0)
     }
   },
@@ -86,7 +84,6 @@ export default {
     return {
       cid: 0,
       loading: false,
-      // Events: [],
       priority_map :{
         1:"info",
         2:"warning",
@@ -95,7 +92,6 @@ export default {
     }
   },
   mounted: function() {
-    // console.log('lalalala')
     this.loading = true
     this.$store.dispatch('getEventFromServerV2').then(()=> {      
       this.loading = false     

@@ -48,6 +48,7 @@ export default {
   },
   mounted() {
     getSystemScore().then(({ result }) => {
+      console.log('score!')
       this.leftData.forEach(item => {
         item.value = result[item.name]
       })
@@ -60,7 +61,6 @@ export default {
         sum += result[item]
       })
       this.score = 1 - result['高危'] / sum
-      console.log(this.score)
     }) 
   }
 };

@@ -209,11 +209,7 @@ export default {
         _this.event.cid = cid
         _this.protocol = response.protocol
         _this.ip = this.parseIP(response.ip)
-        _this.proto4 = this.parseProto4(response.proto4, response.protocol)
-        console.log(_this.event);
-        console.log(_this.ip);
-        console.log(_this.proto4);
-        
+        _this.proto4 = this.parseProto4(response.proto4, response.protocol)      
       }).catch(error => {
         console.log(error)
       })
@@ -307,13 +303,6 @@ export default {
     var cid = this.$route.params.id;
     this.getProtocol(parseInt(cid))
   },
-  // watch: {
-  //   $route(to, from) {
-  //     console.log("watching you "+to+from)
-  //     console.log(to)
-  //     console.log(from)
-  //   }
-  // }
 }
 </script>
 

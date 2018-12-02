@@ -42,7 +42,6 @@ var task = {
     },
     UPDATE_SCORE(state) {
       const vul_cat = state.current_device.vul_cat
-      console.log(vul_cat)
       state.score = 100 - (vul_cat[0] * 3 + vul_cat[1] * 2 + vul_cat[2])
     }
   },
@@ -73,7 +72,6 @@ var task = {
             key !== 'port' &&
             key !== 'key' &&
             key !== '_id') {
-          console.log(key)
           filterRecords[key] = state.current_record[key]
         }
       }

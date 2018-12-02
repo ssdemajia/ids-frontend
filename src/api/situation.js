@@ -78,3 +78,11 @@ export function getSystemDistribute(type) {
     }
   })
 }
+
+// 获得整个数据库中协议的数量
+export function getSystemInfoCount() {
+  return request({
+    url: '/situation/system_count',
+    method: 'GET'
+  })
+}

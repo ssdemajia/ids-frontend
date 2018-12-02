@@ -71,7 +71,6 @@ const event = {
           context.commit('CHANGE_EVENTS', mEvents)
           resolve(response)
         }).catch(err => {
-          console.log('getEvent error')
           reject(err)
         })
       })
@@ -113,16 +112,8 @@ const event = {
       if (state.checkIP) {
         count += state.event_count.event - count
       }
-      console.log('Count:' + count)
       return count
     }
-    // getCurrentEventsCount(state) {
-    //   return state.current_events.length
-    // },
-    // getPageCount(state, getters) {
-    //   console.log('Page: ' + getters.getEventsCount / state.eventPerPage)
-    //   return Math.ceil(getters.getEventsCount / state.eventPerPage)
-    // }
   }
 }
 export default event

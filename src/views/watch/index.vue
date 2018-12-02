@@ -102,10 +102,8 @@ export default {
     new Promise((resolve, reject) => {
       monitorInterface().then(response => {
         this.options = response.result  
-        // console.log(this.Interface)
         if (this.form.interface == null && this.options.length != 0) {
           this.form.interface = this.options[0].value
-          // console.log(this.Interface.value)
         }
         resolve(response)
       }).catch(error => {
@@ -119,7 +117,6 @@ export default {
   },
   methods: {
     handleCurrentChange(index) {
-      console.log(index)
       var { start, end } = this.calRange(index)
       getPacket(start, end).then((response) => {
         this.pcap = response.result
@@ -131,7 +128,6 @@ export default {
       })
     },
     start() {
-      // console.log(this.form.count + this.form.interface)
       startMonitor(this.form.count, this.form.interface).then((response) => {
         this.timer = setTimeout(this.flash, 1000);
       })
@@ -139,10 +135,8 @@ export default {
     flash() {
       var { start, end } = this.calRange()
       getPacket(start, end).then((response) => {
-        console.log(response)
         this.pcap = response.result
         this.itemTotal = response.count
-        console.log(response.count, this.form.count)
         if (response.count < this.itemPerPage) {
           this.itemTotal = this.itemPerPage
         }

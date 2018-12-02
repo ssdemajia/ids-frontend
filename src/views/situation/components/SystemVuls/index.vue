@@ -19,7 +19,7 @@
         v-else
         class="list-item"
         v-for="vul in vuls" 
-        :key='vul.description'
+        :key='vul.cve'
         @click="() => handleClick(vul)"
       >
         <div class="item-header">

@@ -5,12 +5,20 @@
       :handleClick="tabsClick"
     >
       <tabs-pane 
-        v-for="tab in tabs" 
+        v-for="(tab, index) in tabs" 
         :key="tab.company"
         :name="tab.query" 
         :label="tab.company"
       > 
-        <div class="tab-item-container">
+        <div 
+          v-if="index == 0"
+        >
+          <system-count />
+        </div>
+        <div 
+          v-else 
+          class="tab-item-container"
+        >
           <trend-pie 
             :className="tab.query + 'trend-pi-chart'" 
             :type="tab.query"
@@ -28,6 +36,7 @@
 import { systemVulsConstant } from "../../constant";
 import TrendPie from "./TrendPie";
 import TrendLine from './TrendLine';
+import SystemCount from './SystemCount';
 
 export default {
   data() {
@@ -38,7 +47,8 @@ export default {
   },
   components: {
     TrendPie,
-    TrendLine
+    TrendLine,
+    SystemCount
   },
   methods: {
     tabsClick() {

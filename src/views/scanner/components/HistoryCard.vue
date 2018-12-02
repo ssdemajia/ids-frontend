@@ -84,14 +84,11 @@ export default {
     DetailPanel
   },
   methods: {
-    getTask(){
-      // console.log('lalalala');
-      
+    getTask(){     
       this.$store.dispatch('getTasks');
       this.timer = setTimeout(this.getTask, 5000);
     },
     del(task) {
-      console.log('delete:', task)
       deleteRecord(task.name).then(res => {
         this.$store.commit('DELETE_RECORD', task)
       })

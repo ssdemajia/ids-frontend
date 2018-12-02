@@ -8,8 +8,8 @@
 <script>
 import echarts from "echarts";
 import { debounce } from "@/utils";
-import { getSystemDistribute } from "@/api/situation";
-
+import { getSystemInfoCount } from "@/api/situation";
+import { systemVulsConstant } from '../../constant';
 export default {
   props: {
     autoResize: {
@@ -24,10 +24,11 @@ export default {
   },
   data() {
     return {
-      width: "440px", // Todo 宽度设为100%会有问题
+      width: "100%", // Todo 宽度设为100%会有问题
       height: "240px",
       chart: null,
-      chartData: []
+      xData: [],
+      yData: [],
     };
   },
   mounted() {
@@ -40,19 +41,17 @@ export default {
     if (window) {
       window.addEventListener("resize", this.__resizeHanlder);
     }
-    getSystemDistribute(this.type).then(({ result }) => {
-      this.chartData[0] = result.date
-      this.chartData[1] = []
-      this.chartData[2] = []
-      this.chartData[3] = []
-      this.chartData[4] = []
-      result['result'].forEach(element => {
-        this.chartData[4].push(element['高危'])
-        this.chartData[3].push(element['中危'])
-        this.chartData[2].push(element['低危'])
-        this.chartData[1].push(element['健康'])
-      });
-      this.setOptions(this.lineData);
+    getSystemInfoCount().then(({ result }) => {
+      this.xData = [];
+      this.yData = [];
+      systemVulsConstant.forEach(item => {
+        if (item.query.length <= 0) {
+          return;
+        }
+        this.xData.push(item.company);
+        this.yData.push(result[item.query]);
+      })
+      this.setOptions();
     })
   },
   beforeDestroy() {
@@ -66,14 +65,14 @@ export default {
     this.chart.dispose();
     this.chart = null;
   },
-  watch: {
-    type: {
-      deep: true,
-      handler(type) {
-        this.setOptions(val);
-      }
-    }
-  },
+  // watch: {
+  //   type: {
+  //     deep: true,
+  //     handler(type) {
+  //       this.setOptions(val);
+  //     }
+  //   }
+  // },
   methods: {
     initChart() {
       this.chart = echarts.init(document.querySelector("." + this.className));
@@ -82,11 +81,11 @@ export default {
     setOptions() {
       this.chart.setOption({
         title: {
-          text: "设备安全性趋势",
+          text: "暴露公网设备数量",
           textStyle: {
             color: "#ccc"
           },
-          left: "right"
+          left: "center"
         },
         tooltip: {
           trigger: "axis",
@@ -101,12 +100,12 @@ export default {
           textStyle: {
             color: "#fff"
           },
-          data: ["设备安全性"]
+          data: ["设备分布"]
         },
 
         grid: {
-          left: "0%",
-          right: "2%",
+          left: "5%",
+          right: "5%",
           top: "12%",
           bottom: "9%",
           containLabel: true
@@ -115,15 +114,16 @@ export default {
           {
             type: "category",
             boundaryGap: false,
-            data: this.chartData[0],
+            data: this.xData,
             axisLabel: {
-              textStyle: {
+              textStyle: {                
                 color: "#6a9cd5",
-                margin: 15
+                margin: 10
               }
             },
             axisTick: {
-              show: false
+              show: true,
+              length: 200
             },
             axisLine: {
               show: true,
@@ -136,7 +136,7 @@ export default {
         yAxis: [
           {
             type: "value",
-            splitNumber: 7,
+            splitNumber: 5,
             splitLine: {
               show: true,
               lineStyle: {
@@ -156,65 +156,34 @@ export default {
 
         series: [
           {
-            name: "高危",
+            name: "数量",
             type: "bar",
-            barWidth: 10,
+            barWidth: 30,
             itemStyle: {
               normal: {
                 barBorderRadius: 5,
                 color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#08447d" },
-                  { offset: 1, color: "rgb(12,107,197)" }
+                  { offset: 0, color: "rgb(12,107,197)" },
+                  { offset: 1, color: "#08447d" }
                 ])
               }
             },
-            data: this.chartData[4]
+            label: {
+              show: true,
+              position: 'top',
+              color: '#fff'
+            },
+            emphasis: {
+              itemStyle: {
+                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                  { offset: 0, color: "rgb(32,137,227)" },
+                  { offset: 1, color: "#08447d" }
+                ])
+              }
+            },
+            barCategoryGap: '100%',
+            data: this.yData
           },
-          {
-            name: "中危",
-            type: "bar",
-            barWidth: 10,
-            itemStyle: {
-              normal: {
-                barBorderRadius: 5,
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#0f78dd" },
-                  { offset: 1, color: "rgb(12,107,197)" }
-                ])
-              }
-            },
-            data: this.chartData[3]
-          },
-          {
-            name: "低危",
-            type: "bar",
-            barWidth: 10,
-            itemStyle: {
-              normal: {
-                barBorderRadius: 5,
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#1585f0" },
-                  { offset: 1, color: "rgb(12,107,197)" }
-                ])
-              }
-            },
-            data: this.chartData[2]
-          },
-          {
-            name: "健康",
-            type: "bar",
-            barWidth: 10,
-            itemStyle: {
-              normal: {
-                barBorderRadius: 5,
-                color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-                  { offset: 0, color: "#2d91f1" },
-                  { offset: 1, color: "rgb(12,107,197)" }
-                ])
-              }
-            },
-            data: this.chartData[1]
-          }
         ]
       });
     }

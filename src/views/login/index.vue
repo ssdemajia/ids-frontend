@@ -93,11 +93,9 @@ export default {
               this.$router.push({ path: "/" });
             })
             .catch(err => {
-              console.log("handleLogin", err);
               this.loading = false;
             });
         } else {
-          console.log("error submit!!");
           return false;
         }
       });
