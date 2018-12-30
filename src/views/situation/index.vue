@@ -12,6 +12,7 @@
         <system-trend />
       </el-col>
       <el-col :span="6">
+        <navigation />
         <system-info />
         <system-vuls />
       </el-col>
@@ -30,6 +31,8 @@ import SystemInfo from './components/SystemInfo';
 import SystemVuls from './components/SystemVuls';
 import VulsScore from './components/VulsScore';
 
+import Navigation from './components/Navigation';
+
 export default {
   components: {
     VulsScore,    
@@ -40,6 +43,7 @@ export default {
     SystemTrend,
     SystemInfo,
     SystemVuls,
+    Navigation,
   }
 }
 </script>

@@ -8,7 +8,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '../views/layout/Layout'
-
+import NavLayout from '@/views/navlayout/NavLayout'
 /**
 * hidden: true                   if `hidden:true` will not show in the sidebar(default is false)
 * alwaysShow: true               if set true, will always show the root menu, whatever its child routes length
@@ -24,90 +24,106 @@ import Layout from '../views/layout/Layout'
 export const constantRouterMap = [
   { path: '/login', component: () => import('@/views/login/index'), hidden: true },
   { path: '/404', component: () => import('@/views/404'), hidden: true },
-  { path: '/situation', component: () => import('@/views/situation'), hidden: true },
+  { path: '/situation', component: () => import('@/views/situation'), hidden: true }, // 新的态势感知界面
   {
-    path: '',
-    component: Layout,
-    redirect: 'dashboard',
-    name: '主界面',
+    path: '/search',
+    component: NavLayout,
     children: [
       {
-        path: 'dashboard',
-        component: () => import('@/views/dashboard/index'),
-        // name: 'dashboard',
-        meta: { title: '主界面', icon: 'example', noCache: true }
+        path: 'result',
+        component: () => import('@/views/search/Result')
       }
     ]
   },
   {
-    path: '/events',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/events/index'),
-        meta: { title: '入侵事件', icon: 'eye' }
-      },
-      {
-        hidden: true,
-        path: 'event/:id',
-        component: () => import('@/views/events/event')
-      }
-    ]
+    path: '/setting',
+    component: NavLayout,
+    name: '设置'
   },
-  {
-    path: '/upload',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'upload',
-        component: () => import('@/views/upload/index'),
-        meta: { title: '协议识别', icon: 'form' }
-      }
-    ]
-  },
-  {
-    path: '/watch',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'watch',
-        component: () => import('@/views/watch/index'),
-        meta: { title: '流量监控', icon: 'star' }
-      }
-    ]
-  },
-  {
-    path: '/vulnerability',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'vulnerability',
-        component: () => import('@/views/vulnerability/index'),
-        meta: { title: '漏洞库', icon: 'table' }
-      }
-    ]
-  },
-  {
-    path: '/scanner',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'scanner',
-        component: () => import('@/views/scanner/index'),
-        meta: { title: '设备识别', icon: 'edit' }
-      }
-    ]
-  },
+  // 不再使用之前的老态势感知界面
+  // {
+  //   path: '',
+  //   component: Layout,
+  //   redirect: 'dashboard',
+  //   name: '主界面',
+  //   children: [
+  //     {
+  //       path: 'dashboard',
+  //       component: () => import('@/views/dashboard/index'),
+  //       // name: 'dashboard',
+  //       meta: { title: '主界面', icon: 'example', noCache: true }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/events',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       component: () => import('@/views/events/index'),
+  //       meta: { title: '入侵事件', icon: 'eye' }
+  //     },
+  //     {
+  //       hidden: true,
+  //       path: 'event/:id',
+  //       component: () => import('@/views/events/event')
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/upload',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'upload',
+  //       component: () => import('@/views/upload/index'),
+  //       meta: { title: '协议识别', icon: 'form' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/watch',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'watch',
+  //       component: () => import('@/views/watch/index'),
+  //       meta: { title: '流量监控', icon: 'star' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/vulnerability',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'vulnerability',
+  //       component: () => import('@/views/vulnerability/index'),
+  //       meta: { title: '漏洞库', icon: 'table' }
+  //     }
+  //   ]
+  // },
+  // {
+  //   path: '/scanner',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'scanner',
+  //       component: () => import('@/views/scanner/index'),
+  //       meta: { title: '设备识别', icon: 'edit' }
+  //     }
+  //   ]
+  // },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
 export default new Router({
-  // mode: 'history', //后端支持可开
+  mode: 'history', // 后端支持可开
   scrollBehavior: () => ({ y: 0 }),
   linkActiveClass: 'active',
   routes: constantRouterMap

@@ -1,7 +1,7 @@
 <template>
   <div class="login-container">
     <vue-canvas-nest 
-      :config="{color:'255,255,255', count: 300, opacity: 0.9}">
+      :config="{color:'255,255,255', count: 300, opacity: 0.8}">
     </vue-canvas-nest>
     <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
       <div class="logo-container">
@@ -136,10 +136,7 @@ $light_gray: #fff;
     border-radius: 5px;
     color: #454545;
   }
-  // .el-button {
-  //   background-color: #2d3a4b;
-  //   border: none;
-  // }
+
 }
 </style>
 
