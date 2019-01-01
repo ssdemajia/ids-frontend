@@ -7,7 +7,7 @@
       <router-link to="/console"><svg-icon icon-class="console"/>控制台</router-link>
     </div>
     <div class="nav-item">
-      <router-link to="/settings"><svg-icon icon-class="setting"/>设置</router-link>
+      <router-link to="/setting"><svg-icon icon-class="setting"/>设置</router-link>
     </div>
   </nav>
 </template>
