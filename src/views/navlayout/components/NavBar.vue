@@ -10,27 +10,27 @@
         工控实验室
       </router-link>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" :class="{'active':(currentPage == 'search')}">
       <router-link to="/search">
         <svg-icon icon-class="search"/>搜索
       </router-link>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" >
       <router-link to="/situation">
         <svg-icon icon-class="shell"/>态势感知
       </router-link>
     </div>
-    <div class="nav-item">
+    <div class="nav-item" :class="{'active':(currentPage == 'console')}">
       <router-link to="/console">
         <svg-icon icon-class="console"/>控制台
       </router-link>
     </div>
-    <div class="nav-item">
-      <router-link to="/settings">
+    <div class="nav-item" :class="{'active':(currentPage == 'setting')}">
+      <router-link to="/setting">
         <svg-icon icon-class="setting"/>设置
       </router-link>
     </div>
-    <div class="nav-search">
+    <div class="nav-search" v-if="canShowSearch">
       <input autofocus="autofocus" vmodel="searchValue" placeholder="输入modbus或siemens"/>
       <button >
         <svg-icon icon-class="search"/>
@@ -48,7 +48,14 @@
 export default {
   data() {
     return {
-      searchValue: ''
+      searchValue: '',
+      canShowSearch: true,
+      currentPage: 'search'
+    }
+  },
+  watch: {
+    $route() {
+      this.showNavSearch()
     }
   },
   methods: {
@@ -57,8 +64,28 @@ export default {
       this.$store.dispatch('LogOut').then(() => {
         location.reload() // 为了重新实例化vue-router对象 避免bug
       })
+    },
+    showNavSearch() {
+      // 是否显示搜索框
+      if (this.$route.path == '/search') {
+        this.canShowSearch = false;
+      } else {
+        this.canShowSearch = true;
+      }
+      if (this.$route.path.indexOf('search')!= -1) {
+        this.currentPage = 'search';
+      } else if (this.$route.path.indexOf('setting')!= -1) {
+        this.currentPage = 'setting';
+      } else if (this.$route.path.indexOf('console')!= -1) {
+        this.currentPage = 'console';
+      } else {
+        this.currentPage = '';
+      }
     }
-  }
+  },
+  created() {
+    this.showNavSearch();
+  },
 };
 </script>
 
@@ -110,6 +137,10 @@ $item-color: #e0e0e0;
       margin-right: 4px;
     }
     &:hover  {
+      color: white;
+      background-color: #000;
+    }
+    &.active {
       color: white;
       background-color: #000;
     }

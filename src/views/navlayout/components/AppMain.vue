@@ -1,6 +1,8 @@
 <template>
   <div class="main">
-    main
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
@@ -12,7 +14,6 @@ export default {
 
 <style>
 .main {
-  background-color: wheat;
   height: calc(100% - 56px);
   margin-top: 56px;
 }

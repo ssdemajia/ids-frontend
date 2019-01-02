@@ -30,6 +30,10 @@ export const constantRouterMap = [
     component: NavLayout,
     children: [
       {
+        path: '',
+        component: () => import('@/views/search/index')
+      },
+      {
         path: 'result',
         component: () => import('@/views/search/Result')
       }
@@ -38,7 +42,24 @@ export const constantRouterMap = [
   {
     path: '/setting',
     component: NavLayout,
-    name: '设置'
+    name: '设置',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/setting/index')
+      }
+    ]
+  },
+  {
+    path: '/console',
+    component: NavLayout,
+    name: '扫描管理',
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/console/index')
+      }
+    ]
   },
   // 不再使用之前的老态势感知界面
   // {

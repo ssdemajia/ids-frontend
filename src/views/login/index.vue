@@ -151,7 +151,7 @@ $light_gray: #009deb;
   height: 100%;
   width: 100%;
   background-color: $bg;
-  background-image: url('/src/assets/ics3.jpg');
+  background-image: url('/src/assets/ics-min.jpg');
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 100% auto;
